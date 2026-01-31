@@ -216,7 +216,7 @@ ____
 With our config file in place, we're ready to create the projects it defines!
 Just fire off the `create` command with `--name <name>` and watch the show!
 
-> [!NOTE] \
+> [!NOTE]
 > Replace `<name>` with the `name` value in your config file.
 
 ```bash

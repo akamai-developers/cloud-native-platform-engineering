@@ -207,8 +207,8 @@ platform:
 ```
 
 ___
-![Initialize CLI config](./media/screencasts/04-cli-init.gif)
-([Go to high-resolution screencast](./media/screencasts/04-cli-init.mp4))
+![Initialize CLI config](./media/screencasts/03-cli-init.gif)
+([Go to high-resolution screencast](./media/screencasts/03-cli-init.mp4))
 ____
 
 ### 6. Generate project code
@@ -223,8 +223,8 @@ Just fire off the `create` command with `--name <name>` and watch the show!
   aplcli create --name apl-ams
 ```
 ____
-![Create the Amsterdam platform project](./media/screencasts/05-cli-create-ams.gif)
-([Go to high-resolution screencast](./media/screencasts/05-cli-create-ams.mp4))
+![Create Amsterdam platform project](./media/screencasts/04-cli-create-ams.gif)
+([Go to high-resolution screencast](./media/screencasts/04-cli-create-ams.mp4))
 ____
 
 This command generates the project scaffolding, including all the
@@ -281,8 +281,8 @@ platform to consume.
 
 ____
 
-![Create the platform project](./media/screencasts/06-pulumi-esc-create.gif)
-([Go to high-resolution screencast](./media/screencasts/06-pulumi-esc-create.mp4))
+![Pulumi ESC Environment](./media/screencasts/05-pulumi-esc-create.gif)
+([Go to high-resolution screencast](./media/screencasts/05-pulumi-esc-create.mp4))
 ____
 
 ### 7. Deploy the platform!
@@ -298,8 +298,8 @@ aplcli deploy --name apl-ams
 ```
 
 ____
-![Deploy the Amsterdam platform](./media/screencasts/07-cli-deploy-ams.gif)
-([Go to high-resolution screencast](./media/screencasts/07-cli-deploy-ams.mp4))
+![Deploy Amsterdam platform](./media/screencasts/06-cli-deploy-ams.gif)
+([Go to high-resolution screencast](./media/screencasts/06-cli-deploy-ams.mp4))
 ____
 
 As noted in a previous step, the two Pulumi micro stacks at play are
@@ -315,7 +315,7 @@ aplcli deploy --name apl-ams --target infra
 
 ### 8. Add another platform
 
-Well, that was exorbitantly easy... so let&#39;s deploy another! Perhaps we
+Well, that was exorbitantly easy... so let'ss deploy another! Perhaps we
 assembled a new dev team that is based in Seattle, with focus is on an
 entirely different product. It would be convenient to simply put them on
 a different node pool, but still share the same Kubernetes cluster with
@@ -357,8 +357,8 @@ platform:
 ```
 
 ___
-![Create the Seattle platform config](./media/screencasts/08-cli-add-sea-conf.gif)
-([Go to high-resolution screencast](./media/screencasts/08-cli-add-sea-conf.mp4))
+![Add Seattle platform config](./media/screencasts/07-cli-add-sea.gif)
+([Go to high-resolution screencast](./media/screencasts/07-cli-add-sea.mp4))
 ___
 
 Run the `create` command again with the name of our new project.
@@ -367,8 +367,8 @@ Run the `create` command again with the name of our new project.
 aplcli create --name apl-sea
 ```
 ____
-![Create the Seattle platform project](./media/screencasts/09-cli-create-sea.gif)
-([Go to high-resolution screencast](./media/screencasts/09-cli-create-sea.mp4))
+![Create Seattle platform project](./media/screencasts/08-cli-create-sea.gif)
+([Go to high-resolution screencast](./media/screencasts/08-cli-create-sea.mp4))
 ____
 
 Yes, more codegen! Notice how it's written to its own namespace
@@ -457,8 +457,8 @@ change their minds when budget enters the conversation again ¯\_(ツ)_/¯.
 aplcli deploy --name apl-sea
 ```
 ___
-![Create the Seattle platform project](./media/screencasts/10-cli-deploy-sea.gif)
-([Go to high-resolution screencast](./media/screencasts/10-cli-deploy-sea.mp4))
+![Deploy Seattle platform project](./media/screencasts/09-cli-deploy-sea.gif)
+([Go to high-resolution screencast](./media/screencasts/09-cli-deploy-sea.mp4))
 ___
 
 In 20 minutes or less, we now have two entirely separate,
@@ -472,8 +472,8 @@ is no runway cloud bill―we are in total control here, and with
 minimal effort involved. Bless a good platform engineering CLI tool!
 
 ____
-![Linode Cloud Manager review](./media/screencasts/11-linode-cloud-review.gif)
-([Go to high-resolution screencast](./media/screencasts/11-linode-cloud-review.mp4))
+![Linode Cloud Manager review](./media/screencasts/10-linode-cloud-review.gif)
+([Go to high-resolution screencast](./media/screencasts/10-linode-cloud-review.mp4))
 ____
 
 Likewise, a quick peek back into our Pulumi Cloud console gives a
@@ -484,8 +484,8 @@ the "managing." Pulumi has been keeping track of our resource state
 this whole time―keeping a versioning history and so on.
 
 ___
-![Pulumi Cloud console review](./media/screencasts/12-pulumi-cloud-review.gif)
-([Go to high-resolution screencast](./media/screencasts/12-pulumi-cloud-review.mp4))
+![Pulumi Cloud console review](./media/screencasts/11-pulumi-cloud-review.gif)
+([Go to high-resolution screencast](./media/screencasts/11-pulumi-cloud-review.mp4))
 ___
 
 ### 9. Tear it down
@@ -515,8 +515,8 @@ torch, and optionally `--target` for just one specific stack of it.
 aplcli destroy --name apl-ams
 ```
 ___
-![Destroy the Amsterdam platform](./media/screencasts/13-cli-destroy-ams.gif)
-([Go to high-resolution screencast](./media/screencasts/13-cli-destroy-ams.mp4))
+![Destroy Amsterdam platform](./media/screencasts/12-cli-destroy-ams.gif)
+([Go to high-resolution screencast](./media/screencasts/12-cli-destroy-ams.mp4))
 ___
 
 Destroy operations can be a little more complex than you'd think

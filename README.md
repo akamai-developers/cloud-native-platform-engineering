@@ -478,7 +478,7 @@ ____
 
 Likewise, a quick peek back into our Pulumi Cloud console gives a
 view of some other resources we could have almost forgot about, not because of
-sprawl that's too crazy to keep track of, but beause of how
+sprawl that's too crazy to keep track of, but because of how
 effortless this is to manage as well. We're actually not even doing 
 the "managing." Pulumi has been keeping track of our resource state 
 this whole time―keeping a versioning history and so on.
@@ -523,13 +523,13 @@ Destroy operations can be a little more complex than you'd think
 sometimes. In this situation, complexity arises due to the
 separation of concerns between the various tooling involved. For
 example, Pulumi can easily create a Kubernetes resource, but
-destroying it afterward is a totaly different story. This is because
+destroying it afterward is a totally different story. This is because
 once deployed, the control plane has commandeered lifecycle of that
 resource―it's now managed on the server side. To make matters more
 confusing, that resource (now Kubernetes object) may even end up
 creating more resources (i.e. block storage/persistent volumes) that
 our Pulumi state is not made aware of. We don't have to look hard to
-find similar blind spots in our other decouplings, such as object
+find similar blind spots in our other decoupling, such as object
 storage, load balancers, and SaaS components like Pulumi ESC. But a
 good platform engineering CLI tool doesn't blink to this challenge.
 It's not afraid, so neither are we!
@@ -542,7 +542,7 @@ not an S3 client (nor should it be), and therefore uninstalling the
 Helm chart does not preform S3 operations to delete the objects it
 wrote.
 
-Recall that our CLI tool lacks any desrire to make assumptions for
+Recall that our CLI tool lacks any desire to make assumptions for
 you, so it just simply asks what you want it to do. Any time the
 `infra` stack is inline for a `destroy` operation, the user is
 prompted on whether to to delete the objects that APL left behind.
@@ -561,7 +561,7 @@ aplcli destroy --name apl-ams --target apl
 Of course however, anything manual like this really throws a wrench
 in our automation pipelines. To solve that problem, the
 `--purge-obj` flag exists to provide your `YES` answer to the OBJ
-quenstion, and skip the prompt.
+question, and skip the prompt.
 
 ```bash
 aplcli destroy --name apl-ams --purge-obj

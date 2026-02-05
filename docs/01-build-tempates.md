@@ -4,7 +4,7 @@ In deployment steps [#5](../README#5-initialize-your-config) and
 [#8](../README#8-add-another-platform) we showed examples of the config file.
 You probably observed a default `values` parameter being reused for
 both platform definitions. Here is a look at that config file again,
-with other params omitted for visibility.
+with other params omitted for readability.
 
 ```yaml
 defaults:
@@ -29,12 +29,11 @@ platform:
     ...
 ```
 
-This parameter is telling our CLI which template file to use for
-generating a `values.yaml`
+This parameter is telling our CLI which template file to use for generating a `values.yaml`
 [override](https://helm.sh/docs/chart_template_guide/values_files/)
 file for the APL Helm chart. In steps [#6](#6-generate-project-code) and [#8](#8-add-another-platform) we showed a
-tree view of the local `.aplcli` config directory. Here is that tree
-view again with the project code omitted.
+tree view of the local `.aplcli` application directory. Here is that tree
+view again with the Pulumi project code omitted.
 
 ```bash
 .aplcli
@@ -58,20 +57,19 @@ view again with the project code omitted.
 This default values template was generated when running the `init`
 command that created this config directory. The purpose of
 templating this versus a hard coding YAML, is so that its reusable
-across different platform projects, connected to different Pulumi
+across different platform projects, which are also connected to different Pulumi
 ESC environments. As you expand the functionality of this CLI by
 adding new commands, refactoring Pulumi code and so on... it's
 useful have a single source of truth―one shared directory for all of
-your values templates.
+your Helm values file templates.
 
-The one created by default provides the minimal overrides necessary
-our implementation of APL, so it's best to leave it alone, and work
-on copies of it for writing new templates. The method also
-simplifies versioning templates as you cycle through deployments of
-APL (since this CLI tool makes that so painless). For example, we
-could have deployed two versions of the Seattle platform―prod and
-dev―with similar but slightly different templates for each. Our
-config directory could look something like this:
+The one created by default provides the minimal overrides necessary for this
+implementation of APL, so it's best to leave it be, and instead work on copies
+of it when writing new templates. This method also simplifies versioning
+templates as you cycle through deployments of APL. For example, we could have
+deployed two versions of the Seattle platform (i.e. `prod` and `dev`) with similar but
+slightly different templates for each. The application directory could look something
+like this:
 
 ```bash
 .aplcli
@@ -94,7 +92,7 @@ config directory could look something like this:
         └── seattle-dev-values.tpl
 ```
 
-Then platform definitions our config file could something like:
+The corresponding platform definitions in our config file would then be something like:
 
 ```yaml
 ...
@@ -111,29 +109,26 @@ platform:
     values: seattle-dev-values.tpl
 ```
 
-The Helm values for APL gives us a *huge* amount of tunables we can
-declare to shape the resulting platforms. For example, both our
-Seattle and Amsterdam platforms were provisioned with two
-teams/tenants (develop and
-[admin](https://techdocs.akamai.com/app-platform/docs/platform-teams#admin-team)
-along with one custom [platform
-admin](https://techdocs.akamai.com/app-platform/docs/platform-user-management#user-roles)
-user. If instead we wanted eight different developer teams and six
-platform admins in Amsterdam, and four developer teams with 2
-platform admins in Seattle, and both with all sorts of messy,
-overlapping membership and roles―we would define of that within
-values templates.
+The Helm values for APL gives us a *huge* amount of tunables we can declare to
+shape the resulting platforms. For example, both our Seattle and Amsterdam
+platforms were provisioned with two teams/tenants (develop and
+[admin](https://techdocs.akamai.com/app-platform/docs/platform-teams#admin-team).
+If instead we wanted eight different developer teams and six [platform
+admins](https://techdocs.akamai.com/app-platform/docs/platform-user-management#user-roles)
+in Amsterdam, and four developer teams with 2 platform admins in Seattle―both
+with all sorts of messy, overlapping membership and roles―we would define all of
+that within these values file templates.
 
 The `values-example.tpl` file demonstrates a more advanced template
 that takes advantaged of many other APL features.
 
-> ![NOTE] \
+> [!IMPORTANT]
 > Be aware that APL Helm chart [values
 schema](https://github.com/linode/apl-core/blob/main/values-schema.yaml)
-is known to
-[change](https://github.com/linode/apl-core/blob/main/values-changes.yaml)
+often
+[changes](https://github.com/linode/apl-core/blob/main/values-changes.yaml)
 between releases. Ensure your templates align with your target version
-of APL. Pulumi code will let you know if you forget. :)
+of APL. Not to worry if you forget, the Pulumi code will let you know. :)
 
 ```yaml
 cluster:
@@ -201,8 +196,8 @@ obj:
       accessKeyId: {{ .accessKey }}
       secretAccessKey: {{ .secretKey }}
       buckets:
-        {{- range .buckets }}
-        {{ . }}: {{ $.prefix }}-{{ . }}
+        {{- range $key, $value := .buckets }}
+        {{ $key }}: {{ $value }}
         {{- end }}
 platformBackups:
   database:
@@ -363,3 +358,31 @@ users:
     initialPassword: {{ randInitPass }}
 ```
 
+____
+## Lab Challenge
+
+Create a copy of the `values-example.tpl` located in the `.aplcli/config` directory. Customize and ensure it minimally satisfies the following requirements:
+
+- At least one additional `platform admin` user with a real email address
+- Another team (separate from the `develop` team) containing at least two users: one `team admin`, and the other just a standard user
+- Limit the total number of services that can be deployed in the new team's namespace
+- Register an external repository containing a `Dockerfile` for an image build pipeline
+- Update a platform/project [definition](../README#glossary) to use this template instead of the default, and ensure it deploys successfully with APL `v4.12.1`.
+
+Helpful resources for completing this exercise:
+- Kubernetes:
+  - [Resource Quotas](https://kubernetes.io/docs/concepts/policy/resource-quotas/)
+- APL Docs:
+  - [Users](https://techdocs.akamai.com/app-platform/docs/platform-user-management)
+  - [Team Settings](https://techdocs.akamai.com/app-platform/docs/team-settings)
+  - [apl-core values-schema.yaml](https://github.com/linode/apl-core/blob/v4.12.1/values-schema.yaml)
+
+
+> [!TIP]
+> The same user cannot be defined as a `platform admin` and a `team admin`.
+
+### Bonus
+In addition to registering an external repository for an image build pipeline, complete the use-case by defining both a workload (deployment) and service for it. Ensure the service is publicly exposed, and reachable from a subdomain in your DNS zone.
+
+> [!TIP]
+> Registering a private repository requires extra steps for credential management within APL, in order to give access. An example of doing this _post-installation_ is demonstrated [here](https://github.com/akamai-developers/rag-langgraph-k8s-quickstart?tab=readme-ov-file#12-generate-github-deploy-key). As this is a _pre-installation_ exercise, we recommend using a public repository. If you are up for the challenge however, here are the relevant parts of the [values schema](https://github.com/linode/apl-core/blob/29b154738a5742bc084fa699fa1574d89727ff45/values-schema.yaml#L1359) and [APL documentation](https://techdocs.akamai.com/app-platform/docs/code-repositories) you'll need to pay attention to.

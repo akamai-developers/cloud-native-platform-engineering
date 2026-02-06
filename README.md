@@ -373,7 +373,16 @@ ____
 ([Go to high-resolution screencast](./media/screencasts/10-linode-cloud-review.mp4))
 ____
 
+<<<<<<< review-readme
 Likewise, a quick peek back into our Pulumi Cloud console gives a view of some other resources we could have almost forgot about, not because of sprawl that's too crazy to keep track of, but because of how effortless this is to manage as well. We're actually not even doing the "managing." Pulumi has been keeping track of our resource state this whole time―keeping a versioning history and so on.
+=======
+Likewise, a quick peek back into our Pulumi Cloud console gives a
+view of some other resources we could have almost forgot about, not because of
+sprawl that's too crazy to keep track of, but because of how
+effortless this is to manage as well. We're actually not even doing 
+the "managing." Pulumi has been keeping track of our resource state 
+this whole time―keeping a versioning history and so on.
+>>>>>>> main
 
 ____
 ![Pulumi Cloud console review](./media/screencasts/11-pulumi-cloud-review.gif)
@@ -395,6 +404,7 @@ aplcli destroy --name apl-ams
 ____
 ![Destroy Amsterdam platform](./media/screencasts/12-cli-destroy-ams.gif)
 ([Go to high-resolution screencast](./media/screencasts/12-cli-destroy-ams.mp4))
+<<<<<<< review-readme
 ____
 
 Destroy operations can be a little more complex than you'd think sometimes. In this situation, complexity arises due to the separation of concerns between the various tooling involved. For example, Pulumi can easily create a Kubernetes resource, but destroying it afterward is a totally different story. This is because once deployed, the control plane has commandeered lifecycle of that resource―it's now managed on the server side. To make matters more confusing, that resource (now Kubernetes object) may even end up creating more resources (i.e. block storage/persistent volumes) that our Pulumi state is not made aware of. We don't have to look hard to find similar blind spots in our other decouplings, such as object
@@ -403,6 +413,39 @@ storage, load balancers, and SaaS components like Pulumi ESC. But a good platfor
 Let's start with object storage. The buckets are initially created by Pulumi as part of the `infra` stack, so naturally Pulumi will attempt to destroy them, but run into problems with the fact that they are not empty, because APL has writing all over them. APL is not an S3 client (nor should it be), and therefore uninstalling the Helm chart does not preform S3 operations to delete the objects it wrote.
 
 Recall that our CLI tool lacks any desire to make assumptions for you, so it just simply asks what you want it to do. Any time the `infra` stack is inline for a `destroy` operation, the user is prompted on whether to to delete the objects that APL left behind. Conversely, it will not ask this question you only target the `apl` stack for destruction, because it doesn't need to. Simple.
+=======
+___
+
+Destroy operations can be a little more complex than you'd think
+sometimes. In this situation, complexity arises due to the
+separation of concerns between the various tooling involved. For
+example, Pulumi can easily create a Kubernetes resource, but
+destroying it afterward is a totally different story. This is because
+once deployed, the control plane has commandeered lifecycle of that
+resource―it's now managed on the server side. To make matters more
+confusing, that resource (now Kubernetes object) may even end up
+creating more resources (i.e. block storage/persistent volumes) that
+our Pulumi state is not made aware of. We don't have to look hard to
+find similar blind spots in our other decoupling, such as object
+storage, load balancers, and SaaS components like Pulumi ESC. But a
+good platform engineering CLI tool doesn't blink to this challenge.
+It's not afraid, so neither are we!
+
+Let's start with object storage. The buckets are initially created
+by Pulumi as part of the `infra` stack, so naturally Pulumi will
+attempt to destroy them, but run into problems with the fact that
+they are not empty, because APL has writing all over them. APL is
+not an S3 client (nor should it be), and therefore uninstalling the
+Helm chart does not preform S3 operations to delete the objects it
+wrote.
+
+Recall that our CLI tool lacks any desire to make assumptions for
+you, so it just simply asks what you want it to do. Any time the
+`infra` stack is inline for a `destroy` operation, the user is
+prompted on whether to to delete the objects that APL left behind.
+Conversely, it will not ask this question you only target the `apl`
+stack for destruction, because it doesn't need to. Simple.
+>>>>>>> main
 
 ```bash
 # these will aks if you wish to destroy the leftover objects
@@ -413,7 +456,14 @@ aplcli destroy --name apl-ams --target infra
 aplcli destroy --name apl-ams --target apl
 ```
 
+<<<<<<< review-readme
 Of course however, anything manual like this really throws a wrench in our automation pipelines. To solve that problem, the `--purge-obj` flag exists to provide your `YES` answer to the OBJ question, and skip the prompt.
+=======
+Of course however, anything manual like this really throws a wrench
+in our automation pipelines. To solve that problem, the
+`--purge-obj` flag exists to provide your `YES` answer to the OBJ
+question, and skip the prompt.
+>>>>>>> main
 
 ```bash
 aplcli destroy --name apl-ams --purge-obj

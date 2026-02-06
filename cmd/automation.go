@@ -22,7 +22,9 @@ type colorUp struct{}
 
 type colorDestroy struct{}
 
-type parallelism struct{}
+type parallelismDown struct{}
+
+type parallelismUp struct{}
 
 type forceRemove struct{}
 
@@ -44,7 +46,11 @@ func (colorDestroy) ApplyOption(opts *optdestroy.Options) {
 	opts.Color = "always"
 }
 
-func (parallelism) ApplyOption(opts *optdestroy.Options) {
+func (parallelismDown) ApplyOption(opts *optdestroy.Options) {
+	opts.Parallel = 4
+}
+
+func (parallelismUp) ApplyOption(opts *optup.Options) {
 	opts.Parallel = 4
 }
 
@@ -117,7 +123,7 @@ func (stk *MicroStack) Up(ctx context.Context) {
 	msg := fmt.Sprintf("deploying %s stack", stk.Name)
 	logger.Info(msg)
 
-	_, err := s.Up(ctx, stdout, colorUp{})
+	_, err := s.Up(ctx, stdout, colorUp{}, parallelismUp{})
 	if err != nil {
 		logger.Error("failed to deploy stack: " + err.Error())
 	}
@@ -141,7 +147,7 @@ func (stk *MicroStack) Down(ctx context.Context) *MicroStack {
 	msg := fmt.Sprintf("destoying %s stack", stk.Name)
 	logger.Info(msg)
 
-	_, err := s.Destroy(ctx, stdout, colorDestroy{}, parallelism{})
+	_, err := s.Destroy(ctx, stdout, colorDestroy{}, parallelismDown{})
 	if err != nil {
 		logger.Error("failed to destroy stack: " + err.Error())
 	}
